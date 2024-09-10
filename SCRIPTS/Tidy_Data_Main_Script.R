@@ -112,3 +112,29 @@ MyData <- MyData %>%
 skimr::skim(MyData)
 
 
+# View the first few rows to confirm the change
+head(MyData)
+
+## Tidying the TimeTo Recurrence ----
+# Display the time to recurrence columns
+MyData %>% 
+  select(TimeToRecurrence, TimeToRecurrence_unit)
+
+# Making a new column where Time to recurrence is defined in days
+MyData <- MyData %>% 
+  mutate(TimeToRecurrence_days = if_else(TimeToRecurrence_unit == "week", TimeToRecurrence*7, TimeToRecurrence))
+
+MyData %>% 
+  select(TimeToRecurrence, TimeToRecurrence_unit, TimeToRecurrence_days)
+
+# No longer use for the original Time_to_recurrence columns, so removing dem
+# Remove the column named 'ColumnToRemove'
+MyData <- MyData %>%
+  select(-TimeToRecurrence_unit, -TimeToRecurrence)
+
+skimr::skim(MyData)
+
+# Saving the dataset with a Tidy name
+fileName <- paste0("tidy_exam_dataset_", Sys.Date(), ".txt")
+write_delim(MyData, 
+            file = here("DATA", fileName), delim="\t")
