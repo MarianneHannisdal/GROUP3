@@ -70,3 +70,45 @@ any(duplicated(MyData_unique))
 # Overwrite MyData with the unique dataset
 MyData <- unique(MyData)
 
+## Identifying PVol and TVol as a suboptimal variable ----
+# Checking if the salient .value is numeric
+class(MyData$.value)
+
+# Reshape the data PVol and TVol
+MyData_wide <- MyData %>%
+  pivot_wider(
+    names_from = volume.measurement,   # This specifies where to get the names of the new columns
+    values_from = .value,              # This specifies where to get the values that will fill the new columns
+    #names_prefix = ""                  # This can be adjusted if you need a specific prefix for column names
+  )
+
+# Print the first few rows to check the new structure
+print(head(MyData_wide))
+
+nrow(MyData_wide)
+
+skimr::skim(MyData_wide)
+
+# Overwrite MyData with the MyData_wide
+MyData <- MyData_wide
+
+# Display the new columns
+MyData %>% 
+  select(PVol, TVol)
+
+# Renaming to more tidy names ----
+# Rename the column X1_Age to Age
+MyData <- MyData %>%
+  rename(Age = X1_Age)
+
+# Rename the column Unita to allogeneic_units
+MyData <- MyData %>%
+  rename(Allogeneic.units = Units)
+
+# To replace spaces with periods in all column names
+MyData <- MyData %>%
+  rename_with(~ gsub(" ", ".", .x))
+
+skimr::skim(MyData)
+
+
