@@ -135,6 +135,6 @@ MyData <- MyData %>%
 skimr::skim(MyData)
 
 # Saving the dataset with a Tidy name
-fileName <- paste0("tidy_exam_dataset_", Sys.Date(), ".txt")
+fileName <- paste0("tidy_exam_dataset", ".txt")
 write_delim(MyData, 
             file = here("DATA", fileName), delim="\t")
