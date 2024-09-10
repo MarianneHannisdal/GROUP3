@@ -84,9 +84,20 @@ MyData <- MyData_wide
 MyData %>% 
   select(PVol, TVol)
 
+# Renaming to more tidy names ----
 # Rename the column X1_Age to Age
 MyData <- MyData %>%
   rename(Age = X1_Age)
+
+# Rename the column Unita to allogeneic_units
+MyData <- MyData %>%
+  rename(Allogeneic.units = Units)
+
+# To replace spaces with periods in all column names
+MyData <- MyData %>%
+  rename_with(~ gsub(" ", ".", .x))
+
+skimr::skim(MyData)
 
 # View the first few rows to confirm the change
 head(MyData)
@@ -95,13 +106,21 @@ head(MyData)
 MyData %>% 
   select(TimeToRecurrence, TimeToRecurrence_unit)
 
+# Making a new column where Time to recurrence is defined in days
 MyData <- MyData %>% 
   mutate(TimeToRecurrence_days = if_else(TimeToRecurrence_unit == "week", TimeToRecurrence*7, TimeToRecurrence))
-
 
 MyData %>% 
   select(TimeToRecurrence, TimeToRecurrence_unit, TimeToRecurrence_days)
 
+# No longer use for the original Time_to_recurrence columns, so removing dem
+# Remove the column named 'ColumnToRemove'
+MyData <- MyData %>%
+  select(-TimeToRecurrence_unit, -TimeToRecurrence)
 
-#fileName <- paste0("exam_dataset_", Sys.Date(), ".txt")write_delim(MyData, 
+skimr::skim(MyData)
+
+
+fileName <- paste0("exam_dataset_", Sys.Date(), ".txt")write_delim(MyData, 
             file = here("DATA", fileName), delim="\t")
+
