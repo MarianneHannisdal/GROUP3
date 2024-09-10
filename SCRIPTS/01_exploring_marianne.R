@@ -1,4 +1,4 @@
-# Tidy the data ----
+# Exploring the data ----
 
 ## Importing data and libraries----
 # Importing relevant packages
@@ -23,7 +23,7 @@ glimpse(MyData)
 # Making a plot of missing values
 naniar::gg_miss_var(MyData)
 
-
+# Tidy the data ----
 ## Identifying some errors: solving a column with two values ----
 # Separate the first column
 MyData <- MyData %>% 
@@ -77,16 +77,50 @@ nrow(MyData_wide)
 
 skimr::skim(MyData_wide)
 
- # Overwrite MyData with the MyData_wide
+# Overwrite MyData with the MyData_wide
 MyData <- MyData_wide
 
 # Display the new columns
 MyData %>% 
   select(PVol, TVol)
 
-# Making a plot of missing values
-naniar::gg_miss_var(MyData)
+# Renaming to more tidy names ----
+# Rename the column X1_Age to Age
+MyData <- MyData %>%
+  rename(Age = X1_Age)
 
-fileName <- paste0("exam_dataset_", Sys.Date(), ".txt")
-write_delim(MyData, 
+# Rename the column Unita to allogeneic_units
+MyData <- MyData %>%
+  rename(Allogeneic.units = Units)
+
+# To replace spaces with periods in all column names
+MyData <- MyData %>%
+  rename_with(~ gsub(" ", ".", .x))
+
+skimr::skim(MyData)
+
+# View the first few rows to confirm the change
+head(MyData)
+
+# Display the time to recurrence columns
+MyData %>% 
+  select(TimeToRecurrence, TimeToRecurrence_unit)
+
+# Making a new column where Time to recurrence is defined in days
+MyData <- MyData %>% 
+  mutate(TimeToRecurrence_days = if_else(TimeToRecurrence_unit == "week", TimeToRecurrence*7, TimeToRecurrence))
+
+MyData %>% 
+  select(TimeToRecurrence, TimeToRecurrence_unit, TimeToRecurrence_days)
+
+# No longer use for the original Time_to_recurrence columns, so removing dem
+# Remove the column named 'ColumnToRemove'
+MyData <- MyData %>%
+  select(-TimeToRecurrence_unit, -TimeToRecurrence)
+
+skimr::skim(MyData)
+
+
+fileName <- paste0("exam_dataset_", Sys.Date(), ".txt")write_delim(MyData, 
             file = here("DATA", fileName), delim="\t")
+
