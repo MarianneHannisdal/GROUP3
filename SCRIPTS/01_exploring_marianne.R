@@ -15,7 +15,16 @@ head(MyData)
 # Getting an overview
 skimr::skim(MyData)
 
-## Identifying some errors: solving a coulm with two values ----
+summary(MyData)
+
+glimpse(MyData)
+
+
+# Making a plot of missing values
+naniar::gg_miss_var(MyData)
+
+
+## Identifying some errors: solving a column with two values ----
 # Separate the first column
 MyData <- MyData %>% 
   separate(col = subject, 
@@ -48,7 +57,8 @@ any(duplicated(MyData_unique))
 # Overwrite MyData with the unique dataset
 MyData <- unique(MyData)
 
-## Identifying PVol and TVol as a subotimal variable ----
+
+## Identifying PVol and TVol as a suboptimal variable ----
 # Checking if the salient .value is numeric
 class(MyData$.value)
 
@@ -66,3 +76,17 @@ print(head(MyData_wide))
 nrow(MyData_wide)
 
 skimr::skim(MyData_wide)
+
+ # Overwrite MyData with the MyData_wide
+MyData <- MyData_wide
+
+# Display the new columns
+MyData %>% 
+  select(PVol, TVol)
+
+# Making a plot of missing values
+naniar::gg_miss_var(MyData)
+
+fileName <- paste0("exam_dataset_", Sys.Date(), ".txt")
+write_delim(MyData, 
+            file = here("DATA", fileName), delim="\t")
