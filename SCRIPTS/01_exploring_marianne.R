@@ -1,4 +1,4 @@
-# Tidy the data ----
+# Exploring the data ----
 
 ## Importing data and libraries----
 # Importing relevant packages
@@ -23,7 +23,7 @@ glimpse(MyData)
 # Making a plot of missing values
 naniar::gg_miss_var(MyData)
 
-
+# Tidy the data ----
 ## Identifying some errors: solving a column with two values ----
 # Separate the first column
 MyData <- MyData %>% 
@@ -77,16 +77,31 @@ nrow(MyData_wide)
 
 skimr::skim(MyData_wide)
 
- # Overwrite MyData with the MyData_wide
+# Overwrite MyData with the MyData_wide
 MyData <- MyData_wide
 
 # Display the new columns
 MyData %>% 
   select(PVol, TVol)
 
-# Making a plot of missing values
-naniar::gg_miss_var(MyData)
+# Rename the column X1_Age to Age
+MyData <- MyData %>%
+  rename(Age = X1_Age)
 
-fileName <- paste0("exam_dataset_", Sys.Date(), ".txt")
-write_delim(MyData, 
+# View the first few rows to confirm the change
+head(MyData)
+
+# Display the time to recurrence columns
+MyData %>% 
+  select(TimeToRecurrence, TimeToRecurrence_unit)
+
+MyData <- MyData %>% 
+  mutate(TimeToRecurrence_days = if_else(TimeToRecurrence_unit == "week", TimeToRecurrence*7, TimeToRecurrence))
+
+
+MyData %>% 
+  select(TimeToRecurrence, TimeToRecurrence_unit, TimeToRecurrence_days)
+
+
+#fileName <- paste0("exam_dataset_", Sys.Date(), ".txt")write_delim(MyData, 
             file = here("DATA", fileName), delim="\t")
