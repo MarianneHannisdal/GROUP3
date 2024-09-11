@@ -54,3 +54,10 @@ write_delim(MyData,
 # Exploring the new joined dataset
 skimr::skim(MyData)
 view(MyData)
+
+# Which columns contains NA-values?
+MyDataNA <- MyData %>%
+  select(where(~ any(is.na(.))))
+View(MyDataNA)
+
+
