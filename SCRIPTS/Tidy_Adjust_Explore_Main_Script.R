@@ -32,5 +32,12 @@ MyData <- MyData %>%
   mutate (subject = as.numeric(subject))
 class (MyData$subject)
 
+##############
+# 
+view(MyData)
+class(subject)
 
+
+# Arrange ID column in order of increasing number or alphabetically
+arrange(subject)
 
