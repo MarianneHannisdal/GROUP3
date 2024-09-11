@@ -32,6 +32,10 @@ MyData <- MyData %>%
   mutate (subject = as.numeric(subject))
 class (MyData$subject)
 
+# Arrange ID column in order of increasing number or alphabetically
+arrange(subject)
+
+
 # Create a column showing whether `PVol` is higher than 100 or not: values High/Low
 MyData <- MyData %>%
   mutate(VolumeHighOrLow = ifelse(PVol > 100, "High", "Low"))
@@ -66,6 +70,5 @@ View(full_data)
 MyData <- full_data
 View(MyData)
 
-# Arrange ID column in order of increasing number or alphabetically
-arrange(subject)
+
 
