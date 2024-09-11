@@ -27,6 +27,10 @@ MyData <- MyData %>%
 
 skimr::skim(MyData)
 
-#
+# Make necessary changes in variable types
+MyData <- MyData %>%
+  mutate (subject = as.numeric(subject))
+class (MyData$subject)
+
 
 
