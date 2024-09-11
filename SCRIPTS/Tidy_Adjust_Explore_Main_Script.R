@@ -33,8 +33,8 @@ MyData <- MyData %>%
 class (MyData$subject)
 
 # Arrange ID column in order of increasing number or alphabetically
-arrange(subject)
-
+MyData <- MyData %>%
+  arrange(subject)
 
 # Create a column showing whether `PVol` is higher than 100 or not: values High/Low
 MyData <- MyData %>%
