@@ -51,3 +51,6 @@ fileName <- paste0("tidy_adjust_exam_dataset", ".txt")
 write_delim(MyData, 
             file = here("DATA", fileName), delim="\t")
 
+# Exploring the new joined dataset
+skimr::skim(MyData)
+view(MyData)
