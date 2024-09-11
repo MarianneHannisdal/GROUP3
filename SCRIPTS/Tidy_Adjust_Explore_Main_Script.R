@@ -13,10 +13,10 @@
 library(tidyverse)
 library(here)
 library(readxl)
+library(dplyr)
 
 # Reading the file
 MyData<-read.delim(here("DATA","tidy_exam_dataset.txt"))
-
 
 # Getting an overview
 skimr::skim(MyData)
@@ -48,6 +48,24 @@ MyData <- MyData %>%
 MyData <- MyData %>%
   mutate(TotalTherapy = AnyAdjTherapy * PreopTherapy)
 
+# Set the order of columns as: `id, hospital, Age` and other columns
+MyData <- MyData %>%
+  select(subject, Hospital, Age, everything())
+View(MyData)
+
+# Organize the above code as a pipe
+MyDataNew <- MyData %>%
+  select(-AA, -bGS, -BN., -OrganConfined) %>%
+  mutate (subject = as.numeric(subject)) %>%
+  arrange(subject) %>%
+  mutate(VolumeHighOrLow = ifelse(PVol > 100, "High", "Low")) %>%
+  mutate(recurrence = ifelse(Recurrence == 0, "No", "Yes")) %>%
+  mutate(TotalTherapy = AnyAdjTherapy * PreopTherapy) %>%
+  select(subject, Hospital, Age, everything())
+
+
+
+# Joining datasets ----
 # - Read and join the additional dataset to your main dataset.
 MyData2<-read.delim(here("DATA","exam_joindata.txt"))
 
@@ -70,5 +88,6 @@ View(full_data)
 MyData <- full_data
 View(MyData)
 
-
-
+# Organizing in a pipe
+MyData2<-read.delim(here("DATA","exam_joindata.txt")) %>%
+  rename(subject = id)
