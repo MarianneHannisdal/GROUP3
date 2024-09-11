@@ -18,3 +18,15 @@ library(readxl)
 MyData<-read.delim(here("DATA","tidy_exam_dataset.txt"))
 
 
+# Getting an overview
+skimr::skim(MyData)
+
+# Removing unnecessary columns from the dataset
+MyData <- MyData %>%
+  select(-AA, -bGS, -BN., -OrganConfined)
+
+skimr::skim(MyData)
+
+
+
+
