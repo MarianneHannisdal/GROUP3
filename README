@@ -1,1 +1,14 @@
 Velcome to Group 3`s group project!
+
+We startet with a dataset that was very untidy:
+Data source
+Source: This data set is mainly from Cata et al. ’Blood Storage Duration and Biochemical Recurrence of Cancer after Radical Prostate- ctomy’. Mayo Clin Proc 2011; 86(2): 120-127. 
+
+From the description on package website: “This data set contains data on 316 men who had undergone radical prostatectomy and received transfusion during or within 30 days of the surgical procedure and had available prostate serum antigen (PSA) follow-up data. The main exposure of interest was RBC storage duration group.”
+
+We started by exploring the data, and quickly noticed that 
+1) the dataset did not contain 316 rows, but 672
+2) that the column names did not have optimal naming
+3) that some rows contained variables
+Based on this, we started tidying so that every column became a variable and every row became an obsevation.
+
