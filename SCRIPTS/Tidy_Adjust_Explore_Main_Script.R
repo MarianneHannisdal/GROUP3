@@ -28,5 +28,12 @@ MyData <- MyData %>%
 skimr::skim(MyData)
 
 
+##############
+# 
+view(MyData)
+class(subject)
 
+
+# Arrange ID column in order of increasing number or alphabetically
+arrange(subject)
 
