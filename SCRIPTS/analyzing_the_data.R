@@ -1,0 +1,111 @@
+#----GROUP 3-------------------------####
+# Date:  2024-09-12       
+# Author:  The members of GROUP 3     
+# Filename: analyzing_the_data.R    
+# Description: Analyzing the data
+#               
+#               
+# Project: Exam
+#-------------------------------------------###
+
+
+
+
+# Analyzing the data ----
+
+## Importing data and libraries----
+# Importing relevant packages
+library(tidyverse)
+library(here)
+library(readxl)
+
+# Reading the file
+MyData <- read_delim(here("DATA","tidy_adjust_exam_dataset.txt"))
+
+
+#- Stratify your data by a categorical column and 
+# report min, max, mean and sd of a numeric column.
+
+# I Choose TimeToRecurrence_days grouped by T.stage
+
+TimeToRec_strat_by_Tstage <- MyData %>% 
+  group_by(T.stage) %>% 
+  summarise(
+    max_TimeToRec = max(TimeToRecurrence_days, na.rm = T),
+    min_TimeToRec = min(TimeToRecurrence_days, na.rm = T),
+    mean_TimeToRec = mean(TimeToRecurrence_days, na.rm = T),
+    std_dev_TimeToRec = sd(TimeToRecurrence_days, na.rm = T)
+  )
+
+TimeToRec_strat_by_Tstage
+
+
+#- Stratify your data by a categorical column and 
+#report min, max, mean and sd of a numeric column 
+# for a defined set of observations - use pipe!
+
+# -Only for persons with `T.Stage == 1`
+
+TimeToRec_strat_by_Tstage_1 <- MyData %>% 
+  filter(T.stage == 1) %>%
+  group_by(T.stage) %>% 
+  summarise(
+    max_TimeToRec = max(TimeToRecurrence_days, na.rm = T),
+    min_TimeToRec = min(TimeToRecurrence_days, na.rm = T),
+    mean_TimeToRec = mean(TimeToRecurrence_days, na.rm = T),
+    std_dev_TimeToRec = sd(TimeToRecurrence_days, na.rm = T)
+  )
+
+TimeToRec_strat_by_Tstage_1
+
+
+#- Only for persons with `Median.RBC.Age == 25`
+
+TimeToRec_strat_by_Median.RBC.Age <- MyData %>% 
+  filter(Median.RBC.Age == 25) %>%
+  group_by(T.stage) %>% 
+  summarise(
+    max_TimeToRec = max(TimeToRecurrence_days, na.rm = T),
+    min_TimeToRec = min(TimeToRecurrence_days, na.rm = T),
+    mean_TimeToRec = mean(TimeToRecurrence_days, na.rm = T),
+    std_dev_TimeToRec = sd(TimeToRecurrence_days, na.rm = T)
+    )
+
+TimeToRec_strat_by_Median.RBC.Age
+
+
+#- Only for persons with `TimeToReccurence` later than 4 weeks
+# skriver dager fordi vi har fjernet variabelen som viser
+
+TimeToRec_strat_by_later_than_4_Weeks <- MyData %>% 
+  filter(TimeToRecurrence_days >= 28) %>%
+  group_by(T.stage) %>% 
+  summarise(
+    max_TimeToRec = max(TimeToRecurrence_days, na.rm = T),
+    min_TimeToRec = min(TimeToRecurrence_days, na.rm = T),
+    mean_TimeToRec = mean(TimeToRecurrence_days, na.rm = T),
+    std_dev_TimeToRec = sd(TimeToRecurrence_days, na.rm = T)
+  )
+
+TimeToRec_strat_by_later_than_4_Weeks
+
+#- Only for persons recruited in `Hosp1` and `Tvol == 2`
+
+TimeToRec_for_Hosp1_Tvol_2  <- MyData %>% 
+  filter(Hospital == "Hosp1") %>%
+  group_by(T.stage) %>% 
+  summarise(
+    max_TimeToRec = max(TimeToRecurrence_days, na.rm = T),
+    min_TimeToRec = min(TimeToRecurrence_days, na.rm = T),
+    mean_TimeToRec = mean(TimeToRecurrence_days, na.rm = T),
+    std_dev_TimeToRec = sd(TimeToRecurrence_days, na.rm = T)
+  )
+    TimeToRec_for_Hosp1_Tvol_2
+
+#- Use two categorical columns in your dataset to create a table (hint: ?count)
+  # We choose the columns "Recurrence" (0 1) and "T.Stage (1 2) 
+    
+MyData %>%
+  count (Recurrence, T.stage)
+    
+    
