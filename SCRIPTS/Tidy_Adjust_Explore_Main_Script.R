@@ -40,7 +40,7 @@ MyData2<-read.delim(here("DATA","exam_joindata.txt")) %>%
 
 # Now we can join by matching "subject". MyData2 has 200 rows and MyData has 316
 # Perform a full join by "subject"
-full_data <- MyData %>%
+full_data <- MyDataNew %>%
   full_join(MyData2, by = "subject")
 
 # looks good, so we overwrite full_data to MyData
@@ -48,7 +48,7 @@ MyData <- full_data
 
 # Saving the dataset with a Tidy name
 fileName <- paste0("tidy_adjust_exam_dataset", ".txt")
-write_delim(MyData, 
+write_delim(MyDataNew, 
             file = here("DATA", fileName), delim="\t")
 
 # Exploring the new joined dataset
