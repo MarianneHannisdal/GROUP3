@@ -26,7 +26,18 @@ skimr::skim(MyData)
 #  _(each person chooses min.one question)_
 
 #- Are there any correlated measurements?
+
 #  - Is there a relation between the `PVol` and `TVol` variables?
+# Regression: viewing the data: hos does the regression line look like
+MyData %>% 
+  ggplot(aes(x = TVol, y = PVol)) +
+  geom_point() + 
+  geom_smooth(method = "lm")
+
+# Calculate correlation and handle NA values by excluding them
+correlation <- cor(MyData$PVol, MyData$TVol, use = "complete.obs")
+print(correlation) # There is a negative correlation between PVol and TVol of -0,21, meaning that for every 1 TVol increases, PVol decreses with 0.21
+
 #  - Does the distribution of `PreopPSA` depend on `T.Stage`?
 #  - Does the distribution of `PVol` depend on `sGS`?
 #  - Does the distribution of `TVol` depend on `sGS`?
