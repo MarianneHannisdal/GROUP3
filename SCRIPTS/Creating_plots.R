@@ -14,6 +14,7 @@ library(tidyverse)
 library(here)
 library(readxl)
 library(dplyr)
+library (patchwork)
 
 # Reading the file
 MyData<-read.delim(here("DATA","tidy_exam_dataset.txt"))
@@ -27,7 +28,6 @@ skimr::skim(MyData)
 
 #- Are there any correlated measurements?
 #  - Is there a relation between the `PVol` and `TVol` variables?
-#  - Does the distribution of `PreopPSA` depend on `T.Stage`?
 #  - Does the distribution of `PVol` depend on `sGS`?
 #  - Does the distribution of `TVol` depend on `sGS`?
 #  - Where there more `T.Stage == 2` in the group with `PreopTherapy == 1` than in the group `PreopTherapy == 0`?
