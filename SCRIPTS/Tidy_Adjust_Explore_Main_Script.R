@@ -53,12 +53,12 @@ write_delim(MyDataNew,
 
 # Exploring the new joined dataset
 skimr::skim(MyData)
-view(MyData)
+glimpse(MyData)
 
 # Which columns contains NA-values?
 MyDataNA <- MyData %>%
   select(where(~ any(is.na(.))))
-View(MyDataNA)
+glimpse(MyDataNA)
 
 #- Stratify your data by a categorical column and 
 # report min, max, mean and sd of a numeric column.
