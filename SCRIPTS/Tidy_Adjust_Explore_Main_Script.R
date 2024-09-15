@@ -46,9 +46,12 @@ full_data <- MyDataNew %>%
 # looks good, so we overwrite full_data to MyData
 MyData <- full_data
 
+# Getting an overview
+skimr::skim(MyData)
+
 # Saving the dataset with a Tidy name
 fileName <- paste0("tidy_adjust_exam_dataset", ".txt")
-write_delim(MyDataNew, 
+write_delim(MyData, 
             file = here("DATA", fileName), delim="\t")
 
 # Exploring the new joined dataset
@@ -145,3 +148,4 @@ TimeToRec_for_Hosp1_Tvol_2
 MyData %>%
   count (Recurrence, T.stage)
 
+glimpse(MyData)
