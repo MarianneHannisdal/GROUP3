@@ -18,10 +18,10 @@ library (patchwork)
 library(ggplot2)
 
 # Reading the file
-MyData<-read.delim(here("DATA","tidy_exam_dataset.txt"))
+MyData<-read.delim(here("DATA","tidy_adjust_exam_dataset.txt"))
 
 # Getting an overview
-skimr::skim(MyData)
+glimpse(MyData)
 
 
 # 4. Day 7: Create plots that would help answer these questions:
