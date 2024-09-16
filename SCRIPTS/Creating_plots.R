@@ -40,10 +40,38 @@ MyData %>%
 correlation <- cor(MyData$PVol, MyData$TVol, use = "complete.obs")
 print(correlation) # There is a negative correlation between PVol and TVol of -0,21, meaning that for every 1 TVol increases, PVol decreses with 0.21
 
+#73 Does the distribution of `PreopPSA` depend on `T.Stage`?  HG!
+  
+  # T-test to find out if there is a significant differece
+  t.test(MyData$PreopPSA~MyData$T.stage) %>%  
+  broom::tidy() # Table showing there is a statistically significant. P-value 0,01
 
-#  - Does the distribution of `PVol` depend on `sGS`? ----
+# Visulalizes by boxplot  
+boxplot(MyData$PreopPSA~MyData$T.stage)
 
-#  - Does the distribution of `TVol` depend on `sGS`? ----
+#  Visualizes with ggplot og linear regression. 
+# Er det hensiktsmessig når dte bare foreligger 2 punkter ?  
+MyData %>% 
+  ggplot(aes(x = T.stage, y = PreopPSA)) +
+  geom_point() + 
+  geom_smooth(method = "lm")
+
+# 74 Does the distribution of `PVol` depend on `sGS`?          HG!   
+
+boxplot(MyData$PreopPSA~MyData$sGS)
+boxplot(MyData$PreopPSA~MyData$sGS, na.rm = T) # the to plots look exacly the same
+
+# According to the boxplot PreopPSA does not seem to depend om SGS.  
+# 
+MyData %>% 
+  ggplot(aes(x = sGS, y = PreopPSA)) +
+  geom_point() + 
+  geom_smooth(method = "lm")  
+
+# Calculate correlation and handle NA values by excluding them
+correlation <- cor(MyData$PreopPSA, MyData$sGS, use = "complete.obs")
+print(correlation) # Collerlation calculatet to 0,071 which is not significant. 
+
 
 #  - Where there more `T.Stage == 2` in the group with `PreopTherapy == 1` than in the group `PreopTherapy == 0`? ----
 # Add a binary indicator for T.Stage == 2, explicitly handling NAs
@@ -92,4 +120,50 @@ ggplot(summary_plot_data, aes(x = PreopTherapy, y = Count, fill = PreopTherapy))
        fill = "Group") +
   theme_minimal()
 
- 
+#  4. Day 8: Analyse the dataset and answer the following questions:
+#    _(each person chooses one question)_
+# 82  - Was the time to recurrence different for various `T.Stage` levels?
+
+t.test(MyData$TimeToRecurrence_days~MyData$T.stage) %>%  
+  broom::tidy()
+# P-value of 0.00233. there is a cleraly significant differece 
+
+MyData %>% 
+  ggplot(aes(x = T.stage, y = TimeToRecurrence_days)) +
+  geom_point() + 
+  geom_smooth(method = "lm")  
+
+# Calculate correlation and handle NA values by excluding them
+correlation <- cor(MyData$TimeToRecurrence_days, MyData$T.stage, use = "complete.obs")
+print(correlation) # Calculatet value -0.1517019 which is significant. 
+
+correlation <- cor(MyData$T.stage, MyData$TimeToRecurrence_days, use = "complete.obs")
+print(correlation)
+
+# Boxplot
+boxplot(MyData$TimeToRecurrence_days~MyData$T.stage)
+
+# 84  - Did those that had recurrence had also larger `TVol` values than those without recurrence?
+
+t.test(MyData$TVol~MyData$Recurrence) %>%  
+  broom::tidy()
+# P-value of 0.0000000641 which is cleraly significant  
+
+MyData %>% 
+  ggplot(aes(x = Recurrence, y = TVol)) +
+  geom_point() + 
+  geom_smooth(method = "lm")  
+
+# Plottet shows a clear difference between the two groups
+
+# Calculate correlation and handle NA values by excluding them
+correlation <- cor(MyData$TVol, MyData$Recurrence, use = "complete.obs")
+print(correlation) # Calculatet value  0.2864918 which is significant. 
+
+
+# Boxplot
+boxplot(MyData$TVol~MyData$Recurrence)
+# Boxplottet does nake make sence here 
+
+
+
