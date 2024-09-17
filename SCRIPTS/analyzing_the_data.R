@@ -23,6 +23,76 @@ library(readxl)
 MyData <- read_delim(here("DATA","tidy_adjust_exam_dataset.txt"))
 
 
+# Was the time to recurrence different for various `RBC.Age.Group` levels?----
+
+# Calculating max and min values for TimeToRecurrence_days by RBC.Age.Group 
+MyData %>%
+  select(RBC.Age.Group, TimeToRecurrence_days) %>%
+  mutate(TimeToRecurrence_days = as.numeric(TimeToRecurrence_days)) %>%
+  group_by(RBC.Age.Group) %>% 
+  summarise(min(TimeToRecurrence_days, na.rm = T), max(TimeToRecurrence_days, na.rm = T))
+
+
+# Calculating the mean value for TimeToRecurrence_days by RBC.Age.Group 
+MyData %>% 
+  group_by(RBC.Age.Group) %>% 
+  summarise(mean(TimeToRecurrence_days, na.rm = T))
+
+summarise(min(TimeToRecurrence_days, na.rm = T), max(TimeToRecurrence_days, na.rm = T))
+
+
+# Normal distribution or not by using histogram?
+hist(MyData$TimeToRecurrence_days)
+
+
+# Drawing a boxplot 
+
+boxplot((MyData$TimeToRecurrence_days ~ MyData$RBC.Age.Group), na.rm = T, main="Boxplot - TimeToRecurrence by Age Groups")
+
+
+# Anova
+
+MyData %>% 
+  
+  mutate(TimeToRecurrence_days = log(TimeToRecurrence_days)) %>%
+  
+  aov(TimeToRecurrence_days~RBC.Age.Group, data = .)
+
+ANOVAresult <-
+  
+  MyData %>% 
+  
+  mutate(TimeToRecurrence_days = log(TimeToRecurrence_days)) %>%
+  
+  aov(TimeToRecurrence_days~RBC.Age.Group, data = .)
+
+ANOVAresult %>%
+  
+  summary()
+
+# Anova - test 2
+MyData %>% 
+  
+  mutate(RBC.Age.Group = log(RBC.Age.Group)) %>%
+  
+  aov(RBC.Age.Group~TimeToRecurrence_days, data = .)
+
+ANOVAresult <-
+  
+  MyData %>% 
+  
+  mutate(RBC.Age.Group = log(RBC.Age.Group)) %>%
+  
+  aov(RBC.Age.Group~TimeToRecurrence_days, data = .)
+
+ANOVAresult %>%
+  
+  summary()
+
+# RBC.Age.Group 2 inhibits lowest time to recurrence
+
+
+
 #- Stratify your data by a categorical column and 
 # report min, max, mean and sd of a numeric column.
 
