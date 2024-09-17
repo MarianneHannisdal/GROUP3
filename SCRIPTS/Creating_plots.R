@@ -49,13 +49,6 @@ print(correlation) # There is a negative correlation between PVol and TVol of -0
 # Visulalizes by boxplot  
 boxplot(MyData$PreopPSA~MyData$T.stage)
 
-#  Visualizes with ggplot og linear regression. 
-# Er det hensiktsmessig når dte bare foreligger 2 punkter ?  
-MyData %>% 
-  ggplot(aes(x = T.stage, y = PreopPSA)) +
-  geom_point() + 
-  geom_smooth(method = "lm")
-
 # 74 Does the distribution of `PVol` depend on `sGS`?          HG!   
 
 boxplot(MyData$PreopPSA~MyData$sGS)
