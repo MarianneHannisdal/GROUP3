@@ -28,6 +28,24 @@ glimpse(MyData)
 
 
 #- Are there any correlated measurements? ----
+# Attempt to create an overview of any correlations
+
+MyDataTest <- MyData %>%
+  select(-Age, -Median.RBC.Age, -Hospital, -VolumeHighOrLow, -recurrence, -subject, -RBC.Age.Group)
+
+
+round(cor(MyDataTest),
+      digits = 2 # rounded to 2 decimals
+)
+corrplot(cor(MyDataTest),
+         method = "number",
+         type = "upper" # show only upper side
+)
+
+# The plot gives an overview of what to explore further. 
+# Removing NAs would probably have improved the plot.
+
+
 
 #  - Is there a relation between the `PVol` and `TVol` variables? ----
 # Regression: viewing the data: hos does the regression line look like
@@ -64,6 +82,43 @@ MyData %>%
 # Calculate correlation and handle NA values by excluding them
 correlation <- cor(MyData$PreopPSA, MyData$sGS, use = "complete.obs")
 print(correlation) # Collerlation calculatet to - 0,071. PreopPSA decreses 7 % when sGS increses by 1.   
+
+
+# Does the distribution of TVol depend on sGS ----
+
+MyDataBarplot <- MyData %>%
+  select(TVol,sGS) %>%
+  drop_na(sGS) %>%
+  drop_na(TVol)
+
+
+table(MyDataBarplot$TVol, MyDataBarplot$sGS) %>%
+  barplot(beside = T, legend.text=c("TVol1", "TVol2", "TVol3"), main = "Surgical Gleason Score and Tumor Volume", xlab="sGS", ylab="count", las=1)
+
+
+# Anova
+
+MyDataBarplot %>% 
+  
+  mutate(sGS = log(sGS)) %>%
+  
+  aov(sGS~TVol, data = .)
+
+ANOVAresult <-
+  
+  MyDataBarplot %>% 
+  
+  mutate(sGS = log(sGS)) %>%
+  
+  aov(sGS~TVol, data = .)
+
+ANOVAresult %>%
+  
+  summary()
+
+
+# Distribution of TVol seems to be dependent of sGS
+
 
 
 #  - Where there more `T.Stage == 2` in the group with `PreopTherapy == 1` than in the group `PreopTherapy == 0`? ----
