@@ -63,7 +63,7 @@ MyData %>%
 
 # Calculate correlation and handle NA values by excluding them
 correlation <- cor(MyData$PreopPSA, MyData$sGS, use = "complete.obs")
-print(correlation) # Collerlation calculatet to 0,071 which is not significant. 
+print(correlation) # Collerlation calculatet to - 0,071. PreopPSA decreses 7 % when sGS increses by 1.   
 
 
 #  - Where there more `T.Stage == 2` in the group with `PreopTherapy == 1` than in the group `PreopTherapy == 0`? ----
