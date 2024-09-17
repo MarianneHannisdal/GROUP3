@@ -89,9 +89,7 @@ ANOVAresult %>%
   
   summary()
 
-# RBC.Age.Group 2 inhibits lowest time to recurrence
-
-
+# RBC.Age.Group 2 inhibits lowest time to recurrence ----
 
 #- Stratify your data by a categorical column and 
 # report min, max, mean and sd of a numeric column.
@@ -203,11 +201,81 @@ print(correlation) # Calculated value -0.1517019.
 # Boxplot
 boxplot(MyData$TimeToRecurrence_days~MyData$T.stage)
 
+# Did having `AdjRadTherapy` affected time to recurrence? ----
+# Exploring: See unique values in the AdjRadTherapy column
+unique_values <- unique(MyData$AdjRadTherapy)
+print(unique_values) # only 0 and 1
+
+# Count the frequency of each value in the AdjRadTherapy column
+frequency_table <- table(MyData$AdjRadTherapy)
+print(frequency_table) # AdjRadTherapy==1 only occured once, rest was 0
+
+# Calculate mean time to recurrence for both groups
+mean_time_to_recurrence <- MyData %>%
+  group_by(AdjRadTherapy) %>%
+  summarise(
+    MeanTimeToRecurrence = mean(TimeToRecurrence_days, na.rm = TRUE),
+    .groups = 'drop'
+  )
+
+# Print the results
+print(mean_time_to_recurrence)
+
+# Subset data for t-test
+time_recurrence_0 <- MyData %>%
+  filter(AdjRadTherapy == 0) %>%
+  pull(TimeToRecurrence_days)
+
+time_recurrence_1 <- MyData %>%
+  filter(AdjRadTherapy == 1) %>%
+  pull(TimeToRecurrence_days)
+
+# Perform two-sided t-test
+t_test_result <- t.test(time_recurrence_1, time_recurrence_0, alternative = "two.sided", na.rm = TRUE) 
+# Error in t.test.default(time_recurrence_1, time_recurrence_0, alternative = "two.sided",  : not enough 'x' observations
+
+# Perform one-sided t-test to see if the mean time to recurrence is greater for AdjRadTherapy == 1
+t_test_result <- t.test(time_recurrence_1, time_recurrence_0, alternative = "greater", na.rm = TRUE)
+# Error: not enough 'x' observations
+
+# Print the results of the t-test
+print(t_test_result) #No result due to error
+
+# What about AnyAdjTherapy in stead of AdjRadTherapy?
+
+# Count the frequency of each value
+frequency_table <- table(MyData$AnyAdjTherapy)
+print(frequency_table) #7 observations of 1, rest 0
+
+# Assuming AnyAdjTherapy is also a binary indicator (0 and 1)
+mean_time_to_recurrence_anyadj <- MyData %>%
+  group_by(AnyAdjTherapy) %>%
+  summarise(
+    MeanTimeToRecurrence = mean(TimeToRecurrence_days, na.rm = TRUE),
+    .groups = 'drop'
+  )
+
+# Print the results
+print(mean_time_to_recurrence_anyadj)
+
+# Subset data for t-test
+time_recurrence_any_0 <- MyData %>%
+  filter(AnyAdjTherapy == 0) %>%
+  pull(TimeToRecurrence_days)
+
+time_recurrence_any_1 <- MyData %>%
+  filter(AnyAdjTherapy == 1) %>%
+  pull(TimeToRecurrence_days)
+
+# Perform one-sided t-test to see if the mean time to recurrence is greater for AnyAdjTherapy == 1
+t_test_result_any <- t.test(time_recurrence_any_1, time_recurrence_any_0, alternative = "greater", na.rm = TRUE)
+
+# Print the results of the t-test
+print(t_test_result_any) #p-value = 0.7421 No significant difference in mean due to power
 
 
 
-
-# 84  - Did those that had recurrence had also larger `TVol` values than those without recurrence?
+# - Did those that had recurrence had also larger `TVol` values than those without recurrence? ----
 
 t.test(MyData$TVol~MyData$Recurrence) %>%  
   broom::tidy()
