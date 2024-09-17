@@ -179,3 +179,49 @@ MyData %>%
   count (Recurrence, T.stage)
     
     
+#  4. Day 8: Analyse the dataset and answer the following questions:
+#    _(each person chooses one question)_
+# 82  - Was the time to recurrence different for various `T.Stage` levels?
+
+t.test(MyData$TimeToRecurrence_days~MyData$T.stage) %>%  
+  broom::tidy()
+# P-value of 0.00233. there is a cleraly significant differece 
+
+MyData %>% 
+  ggplot(aes(x = T.stage, y = TimeToRecurrence_days)) +
+  geom_point() + 
+  geom_smooth(method = "lm")  
+
+# Calculate correlation and handle NA values by excluding them
+correlation <- cor(MyData$TimeToRecurrence_days, MyData$T.stage, use = "complete.obs")
+print(correlation) # Calculatet value -0.1517019 which is significant. 
+
+correlation <- cor(MyData$T.stage, MyData$TimeToRecurrence_days, use = "complete.obs")
+print(correlation)
+
+# Boxplot
+boxplot(MyData$TimeToRecurrence_days~MyData$T.stage)
+
+# 84  - Did those that had recurrence had also larger `TVol` values than those without recurrence?
+
+t.test(MyData$TVol~MyData$Recurrence) %>%  
+  broom::tidy()
+# P-value of 0.0000000641 which is cleraly significant  
+
+MyData %>% 
+  ggplot(aes(x = Recurrence, y = TVol)) +
+  geom_point() + 
+  geom_smooth(method = "lm")  
+
+# Plottet shows a clear difference between the two groups
+
+# Calculate correlation and handle NA values by excluding them
+correlation <- cor(MyData$TVol, MyData$Recurrence, use = "complete.obs")
+print(correlation) # Calculatet value  0.2864918 which is significant. 
+
+
+# Boxplot
+boxplot(MyData$TVol~MyData$Recurrence)
+# Boxplottet does nake make sence here 
+
+
