@@ -2,7 +2,7 @@
 # Date:  2024-09-11      
 # Author:  The members of GROUP 3     
 # Filename: Creating_Plots.R    
-# Description:  Creatig Plots
+# Description:  Creating Plots
 #               
 #               
 # Project: Exam
@@ -16,6 +16,7 @@ library(readxl)
 library(dplyr)
 library (patchwork)
 library(ggplot2)
+library(corrplot)
 
 # Reading the file
 MyData<-read.delim(here("DATA","tidy_adjust_exam_dataset.txt"))
