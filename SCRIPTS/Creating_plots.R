@@ -29,23 +29,18 @@ glimpse(MyData)
 
 
 #- Are there any correlated measurements? ----
-# Attempt to create an overview of any correlations
+# --> an overview by computing a correlation-matrix:
 
 MyDataTest <- MyData %>%
   select(-Age, -Median.RBC.Age, -Hospital, -VolumeHighOrLow, -recurrence, -subject, -RBC.Age.Group)
 
-
 round(cor(MyDataTest),
       digits = 2 # rounded to 2 decimals
 )
-corrplot(cor(MyDataTest),
+corrplot(cor(MyDataTest, use = "pairwise.complete.obs"),
          method = "number",
          type = "upper" # show only upper side
-)
-
-# The plot gives an overview of what to explore further. 
-# Removing NAs would probably have improved the plot.
-
+) # The plot gives an overview of what to explore further. 
 
 
 #  - Is there a relation between the `PVol` and `TVol` variables? ----
