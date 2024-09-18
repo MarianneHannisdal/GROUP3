@@ -1,6 +1,6 @@
 #----GROUP 3-------------------------####
 # Date:  2024-09-11      
-# Author:  The members of GROUP 3     
+# Author:  The members of GROUP 3: Siren Hovland, Hildegunn Frønningen, Marianne Hannisdal     
 # Filename: Creating_Plots.R    
 # Description:  Creating Plots
 #               
@@ -39,8 +39,12 @@ round(cor(MyDataTest),
 )
 corrplot(cor(MyDataTest, use = "pairwise.complete.obs"),
          method = "number",
+         title = "Correlation matrix of the variables",
          type = "upper" # show only upper side
 ) # The plot gives an overview of what to explore further. 
+
+dev.copy(png,filename="RESULTS/corrplot.png"); #Saving the displayed plot
+dev.off ();
 
 
 #  - Is there a relation between the `PVol` and `TVol` variables? ----
@@ -50,11 +54,14 @@ MyData %>%
   geom_point() + 
   geom_smooth(method = "lm")
 
+dev.copy(png,filename="RESULTS/reg_plot_PVol_TVol.png"); #Saving the displayed plot
+dev.off ();
+
 # Calculate correlation and handle NA values by excluding them
 correlation <- cor(MyData$PVol, MyData$TVol, use = "complete.obs")
 print(correlation) # There is a negative correlation between PVol and TVol of -0,21, meaning that for every 1 TVol increases, PVol decreses with 0.21
 
-#73 Does the distribution of `PreopPSA` depend on `T.Stage`?  HG!
+# Does the distribution of `PreopPSA` depend on `T.Stage`? ----
   
   # T-test to find out if there is a significant differece
   t.test(MyData$PreopPSA~MyData$T.stage) %>%  
@@ -62,14 +69,25 @@ print(correlation) # There is a negative correlation between PVol and TVol of -0
 
 # Visulalizes by boxplot  
 boxplot(MyData$PreopPSA~MyData$T.stage)
+dev.copy(png,filename="RESULTS/PreopPSA_depend_on_Tstage.png"); #Saving the displayed plot
+dev.off ();
 
-# 74 Does the distribution of `PVol` depend on `sGS`?          HG!   
+# Does the distribution of `PVol` depend on `sGS`? ----  
 
-boxplot(MyData$PreopPSA~MyData$sGS)
-boxplot(MyData$PreopPSA~MyData$sGS, na.rm = T) # the to plots look exacly the same
-
+boxplot(MyData$PVol~MyData$sGS)
+boxplot(MyData$PVol~MyData$sGS, na.rm = T) # the to plots look exacly the same
+dev.copy(png,filename="RESULTS/PVol_depend_on_sGS.png"); #Saving the displayed plot
+dev.off ();
 # According to the boxplot PreopPSA does not seem to depend om SGS.  
-# 
+
+# Removing rows with any NA values in either PreopPSA or sGS columns
+clean_data <- na.omit(MyData[c("PVol", "sGS")])
+
+# Conduct ANOVA on the cleaned dataset
+anova_result <- aov(PVol ~ factor(sGS), data = clean_data)
+summary(anova_result)
+
+
 MyData %>% 
   ggplot(aes(x = sGS, y = PreopPSA)) +
   geom_point() + 
@@ -85,35 +103,19 @@ print(correlation) # Collerlation calculatet to - 0,071. PreopPSA decreses 7 % w
 MyDataBarplot <- MyData %>%
   select(TVol,sGS) %>%
   drop_na(sGS) %>%
-  drop_na(TVol)
-
+  drop_na(TVol)%>%
+  mutate(sGS = as.factor(sGS))  # Make sure sGS is treated as a factor
 
 table(MyDataBarplot$TVol, MyDataBarplot$sGS) %>%
   barplot(beside = T, legend.text=c("TVol1", "TVol2", "TVol3"), main = "Surgical Gleason Score and Tumor Volume", xlab="sGS", ylab="count", las=1)
-
+dev.copy(png,filename="RESULTS/TVol_depend_on_sGS.png"); #Saving the displayed plot
+dev.off ()
 
 # Anova
+anova_result <- aov(TVol ~ sGS, data = MyDataBarplot)
 
-MyDataBarplot %>% 
-  
-  mutate(sGS = log(sGS)) %>%
-  
-  aov(sGS~TVol, data = .)
-
-ANOVAresult <-
-  
-  MyDataBarplot %>% 
-  
-  mutate(sGS = log(sGS)) %>%
-  
-  aov(sGS~TVol, data = .)
-
-ANOVAresult %>%
-  
-  summary()
-
-
-# Distribution of TVol seems to be dependent of sGS
+# Display the summary of the ANOVA
+summary(anova_result) #the p-value is extremely small, providing strong evidence against the null hypothesis, suggesting that the differences in TVol across the groups defined by sGS are highly statistically significant
 
 
 
@@ -163,5 +165,8 @@ ggplot(summary_plot_data, aes(x = PreopTherapy, y = Count, fill = PreopTherapy))
        y = "Count of T.Stage == 2",
        fill = "Group") +
   theme_minimal()
+# Saving the plot
+dev.copy(png,filename="RESULTS/count_T2.png"); #Saving the displayed plot
+dev.off ();
 
-
+unique(MyData$T.stage)
