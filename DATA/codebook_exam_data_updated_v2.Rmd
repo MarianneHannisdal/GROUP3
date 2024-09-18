@@ -1,5 +1,5 @@
 ---
-title: "**FINAL REPORT**"
+title: "**Codebook for exam data - blood storage**"
 subtitle: "RMED901"
 author: "MEMBERS OF GROUP 3"
 date: "`r Sys.Date()`"
@@ -33,15 +33,15 @@ library(here)
 
 
 ## Data source
-<br>
+<br><br>
 Source: The original data set is mainly from Cata et al.’Blood Storage Duration and Biochemical Recurrence of Cancer after Radical Prostate- ctomy’. Mayo Clin Proc 2011; 86(2): 120-127. A clean version is taken from R package medicaldata.<br><br>
 
 From the description on package website: “This data set contains data on 316 men who had undergone radical prostatectomy and received transfusion during or within 30 days of the surgical procedure and had available prostate serum antigen (PSA) follow-up data. The main exposure of interest was RBC storage duration group.”<br><br>
 
-The original dataset has been transformed (tidied and adjusted) and combined with an additonal dataset . 
+The original dataset has been transformed (tidied and adjusted) and combined with an additonal dataset.<br><br>
 
 ## Codebook
-<br>
+<br><br>
 The new, tidied dataset:<br>
 
 A data frame with 316 observations and 21 variables.<br><br>
@@ -52,6 +52,4 @@ A data frame with 316 observations and 21 variables.<br><br>
 Codebook_updated_v2 <- read_excel(here("DATA/Codebook_updated_v2.xlsx"))
 knitr::kable(Codebook_updated_v2)
 ```
-
-
 
