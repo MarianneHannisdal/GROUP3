@@ -1,6 +1,6 @@
 #----GROUP 3-------------------------####
 # Date:  2024-09-10       
-# Author:  The members of GROUP 3     
+# Author:  The members of GROUP 3: Siren Hovland, Hildegunn Frønningen, Marianne Hannisdal     
 # Filename: Tidy_Data_Main_Script.R    
 # Description:  Exploring and tidying the data
 #               

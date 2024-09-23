@@ -1,6 +1,6 @@
 #----GROUP 3-------------------------####
 # Date:  2024-09-12       
-# Author:  The members of GROUP 3     
+# Author:  The members of GROUP 3: Siren Hovland, Hildegunn Frønningen, Marianne Hannisdal      
 # Filename: analyzing_the_data.R    
 # Description: Analyzing the data
 #               
