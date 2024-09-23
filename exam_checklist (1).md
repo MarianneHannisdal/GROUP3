@@ -20,11 +20,11 @@ where needed)_
 - [x] Save manipulated data in a file
 - [x] Update README
 - [x] Create updated codebook for tidy data
-- [ ] Style the script(s) using [{styler}](https://styler.r-lib.org/)
+- [x] Style the script(s) using [{styler}](https://styler.r-lib.org/)
 
 - [x] Create plots
 - [ ] Style the script(s) using [{styler}](https://styler.r-lib.org/)
-- [ ] Update README
+- [x] Update README
 
 - [ ] Analyze data
 - [ ] Style the script(s) using [{styler}](https://styler.r-lib.org/)
