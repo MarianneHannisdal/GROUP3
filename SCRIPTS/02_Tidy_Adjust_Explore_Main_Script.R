@@ -8,22 +8,17 @@
 # Project: Exam
 #-------------------------------------------###
 
-## Importing data and libraries----
-# Importing relevant packages
+# Importing data and libraries----
 library(tidyverse)
 library(here)
-library(readxl)
 library(dplyr)
 library(styler)
 
 # Reading the file
 MyData <- read.delim(here("DATA", "tidy_exam_dataset.txt"))
 
-# Getting an overview
-skimr::skim(MyData)
-
-# Rearrange the code, in the format of a pipe
-MyDataNew <- MyData %>%
+# Wrangling the data, in the format of a pipe
+MyDataWrangled <- MyData %>%
   select(-AA, -bGS, -BN., -OrganConfined) %>%
   mutate(subject = as.numeric(subject)) %>%
   arrange(subject) %>%
@@ -35,20 +30,19 @@ MyDataNew <- MyData %>%
 
 # Joining datasets ----
 # Read and join the additional dataset to your main dataset.
-# Organizing in a pipe
 MyData2 <- read.delim(here("DATA", "exam_joindata.txt")) %>%
   rename(subject = id)
 
 # Now we can join by matching "subject". MyData2 has 200 rows and MyData has 316
 # Perform a full join by "subject"
-full_data <- MyDataNew %>%
+full_data <- MyDataWrangled %>%
   full_join(MyData2, by = "subject")
+
+# Visually inspecting if the join was successful before overwriting MyData
+glimpse(full_data)
 
 # looks good, so we overwrite full_data to MyData
 MyData <- full_data
-
-# Getting an overview
-skimr::skim(MyData)
 
 # Saving the dataset with a Tidy name
 fileName <- paste0("tidy_adjust_exam_dataset", ".txt")
