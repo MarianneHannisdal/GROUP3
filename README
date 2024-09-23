@@ -1,6 +1,7 @@
 # Velcome to Group 3`s group project! 
 ## The group consists of Siren Hovland, Hildegunn Frønningen, Marianne Hannisdal 
 
+
 **DATA**
 The DATA folder contains an exam_dataset.txt that was very untidy, we therefore tidyed it up using the "Tidy_Data_Main_script.R" resulting in a new dataset "tidy_exam_dataset.txt". It also contains the codebook describing the data we have used.
 
