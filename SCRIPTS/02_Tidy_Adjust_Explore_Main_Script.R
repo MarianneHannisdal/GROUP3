@@ -1,10 +1,10 @@
 #----GROUP 3-------------------------####
-# Date:  2024-09-11      
-# Author:  The members of GROUP 3: Siren Hovland, Hildegunn Frønningen, Marianne Hannisdal     
-# Filename: Tidy_Adjust_Explore_Main_Script.R    
+# Date:  2024-09-23
+# Author:  The members of GROUP 3: Siren Hovland, Hildegunn Frønningen, Marianne Hannisdal
+# Filename: Tidy_Adjust_Explore_Main_Script.R
 # Description:  Tidy exploring and adjust the data
-#               
-#               
+#
+#
 # Project: Exam
 #-------------------------------------------###
 
@@ -14,9 +14,10 @@ library(tidyverse)
 library(here)
 library(readxl)
 library(dplyr)
+library(styler)
 
 # Reading the file
-MyData<-read.delim(here("DATA","tidy_exam_dataset.txt"))
+MyData <- read.delim(here("DATA", "tidy_exam_dataset.txt"))
 
 # Getting an overview
 skimr::skim(MyData)
@@ -24,7 +25,7 @@ skimr::skim(MyData)
 # Rearrange the code, in the format of a pipe
 MyDataNew <- MyData %>%
   select(-AA, -bGS, -BN., -OrganConfined) %>%
-  mutate (subject = as.numeric(subject)) %>%
+  mutate(subject = as.numeric(subject)) %>%
   arrange(subject) %>%
   mutate(VolumeHighOrLow = ifelse(PVol > 100, "High", "Low")) %>%
   mutate(recurrence = ifelse(Recurrence == 0, "No", "Yes")) %>%
@@ -35,7 +36,7 @@ MyDataNew <- MyData %>%
 # Joining datasets ----
 # Read and join the additional dataset to your main dataset.
 # Organizing in a pipe
-MyData2<-read.delim(here("DATA","exam_joindata.txt")) %>%
+MyData2 <- read.delim(here("DATA", "exam_joindata.txt")) %>%
   rename(subject = id)
 
 # Now we can join by matching "subject". MyData2 has 200 rows and MyData has 316
@@ -51,25 +52,21 @@ skimr::skim(MyData)
 
 # Saving the dataset with a Tidy name
 fileName <- paste0("tidy_adjust_exam_dataset", ".txt")
-write_delim(MyData, 
-            file = here("DATA", fileName), delim="\t")
+write_delim(MyData,
+  file = here("DATA", fileName), delim = "\t"
+)
 
-# Exploring the new joined dataset
-skimr::skim(MyData)
-glimpse(MyData)
-
-# Which columns contains NA-values?
+# Exploring the data: ----
+## Which columns contains NA-values? ----
 MyDataNA <- MyData %>%
   select(where(~ any(is.na(.))))
-glimpse(MyDataNA)
+glimpse(MyDataNA) # Displaying columns with NA
 
-#- Stratify your data by a categorical column and 
-# report min, max, mean and sd of a numeric column.
-
+# Stratifying ----
+## - our data by a categorical column and report min, max, mean and sd of a numeric column ----
 # We Choose TimeToRecurrence_days grouped by T.stage
-
-TimeToRec_strat_by_Tstage <- MyData %>% 
-  group_by(T.stage) %>% 
+TimeToRec_strat_by_Tstage <- MyData %>%
+  group_by(T.stage) %>%
   summarise(
     max_TimeToRec = max(TimeToRecurrence_days, na.rm = T),
     min_TimeToRec = min(TimeToRecurrence_days, na.rm = T),
@@ -77,63 +74,52 @@ TimeToRec_strat_by_Tstage <- MyData %>%
     std_dev_TimeToRec = sd(TimeToRecurrence_days, na.rm = T)
   )
 
-TimeToRec_strat_by_Tstage
+TimeToRec_strat_by_Tstage # Displaying a tibble
 
 
-#- Stratify your data by a categorical column and 
-#report min, max, mean and sd of a numeric column 
-# for a defined set of observations - use pipe!
-
+## - for a defined set of observations ----
 # -Only for persons with `T.Stage == 1`
-
-TimeToRec_strat_by_Tstage_1 <- MyData %>% 
+TimeToRec_strat_by_Tstage_1 <- MyData %>%
   filter(T.stage == 1) %>%
-  group_by(T.stage) %>% 
+  group_by(T.stage) %>%
   summarise(
     max_TimeToRec = max(TimeToRecurrence_days, na.rm = T),
     min_TimeToRec = min(TimeToRecurrence_days, na.rm = T),
     mean_TimeToRec = mean(TimeToRecurrence_days, na.rm = T),
     std_dev_TimeToRec = sd(TimeToRecurrence_days, na.rm = T)
   )
-
 TimeToRec_strat_by_Tstage_1
 
 
-#- Only for persons with `Median.RBC.Age == 25`
-
-TimeToRec_strat_by_Median.RBC.Age <- MyData %>% 
+## - for persons with `Median.RBC.Age == 25` ----
+TimeToRec_strat_by_Median.RBC.Age <- MyData %>%
   filter(Median.RBC.Age == 25) %>%
-  group_by(T.stage) %>% 
+  group_by(T.stage) %>%
   summarise(
     max_TimeToRec = max(TimeToRecurrence_days, na.rm = T),
     min_TimeToRec = min(TimeToRecurrence_days, na.rm = T),
     mean_TimeToRec = mean(TimeToRecurrence_days, na.rm = T),
     std_dev_TimeToRec = sd(TimeToRecurrence_days, na.rm = T)
   )
-
 TimeToRec_strat_by_Median.RBC.Age
 
 
-#- Only for persons with `TimeToReccurence` later than 4 weeks
-# skriver dager fordi vi har fjernet variabelen som viser
-
-TimeToRec_strat_by_later_than_4_Weeks <- MyData %>% 
+## - for persons with `TimeToReccurence` later than 4 weeks (28 days) ----
+TimeToRec_strat_by_later_than_4_Weeks <- MyData %>%
   filter(TimeToRecurrence_days >= 28) %>%
-  group_by(T.stage) %>% 
+  group_by(T.stage) %>%
   summarise(
     max_TimeToRec = max(TimeToRecurrence_days, na.rm = T),
     min_TimeToRec = min(TimeToRecurrence_days, na.rm = T),
     mean_TimeToRec = mean(TimeToRecurrence_days, na.rm = T),
     std_dev_TimeToRec = sd(TimeToRecurrence_days, na.rm = T)
   )
-
 TimeToRec_strat_by_later_than_4_Weeks
 
-#- Only for persons recruited in `Hosp1` and `Tvol == 2`
-
-TimeToRec_for_Hosp1_Tvol_2  <- MyData %>% 
+## - for persons recruited in `Hosp1` and `Tvol == 2` ----
+TimeToRec_for_Hosp1_Tvol_2 <- MyData %>%
   filter(Hospital == "Hosp1") %>%
-  group_by(T.stage) %>% 
+  group_by(T.stage) %>%
   summarise(
     max_TimeToRec = max(TimeToRecurrence_days, na.rm = T),
     min_TimeToRec = min(TimeToRecurrence_days, na.rm = T),
@@ -142,10 +128,11 @@ TimeToRec_for_Hosp1_Tvol_2  <- MyData %>%
   )
 TimeToRec_for_Hosp1_Tvol_2
 
-#- Use two categorical columns in your dataset to create a table (hint: ?count)
-# We choose the columns "Recurrence" (0 1) and "T.Stage (1 2) 
-
+# Use two categorical columns in your dataset to create a table ----
+# We choose the columns "Recurrence" (0 1) and "T.Stage (1 2)
 MyData %>%
-  count (Recurrence, T.stage)
+  count(Recurrence, T.stage)
 
-glimpse(MyData)
+
+
+styler:::style_active_file()
