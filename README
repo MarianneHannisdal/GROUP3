@@ -1,8 +1,8 @@
-Velcome to Group 3`s group project!
+Velcome to Group 3`s group project! The group consists of Siren Hovland, Hildegunn Frønningen, Marianne Hannisdal 
 
-The DATA folder contains an exam_dataset.txt that was very untidy, we therefore tidyed it up using the "Tidy_Data_Main_script.R" resulting in a new dataset "tidy_exam_dataset.txt"
+The DATA folder contains an exam_dataset.txt that was very untidy, we therefore tidyed it up using the "Tidy_Data_Main_script.R" resulting in a new dataset "tidy_exam_dataset.txt". It also contains the codebook describing the data we have used.
 
-The SCRIPTS folder contains all the scripts we have used, and is named according to the task they were used for.The scripts starting with "01_..." is just test-scripts and can be disregarded.
+The SCRIPTS folder contains all the scripts we have used, and is named according to the task they were used for.The scripts is named with "01_..." to define the chronological order.
 
-
+The RESULTS folder contains all the relevant plots we made to answer the exam questions, and the actual results in the file "Final_report.rmd""
 
