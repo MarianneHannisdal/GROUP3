@@ -1,7 +1,10 @@
-Velcome to Group 3`s group project! The group consists of Siren Hovland, Hildegunn Frønningen, Marianne Hannisdal 
+# Velcome to Group 3`s group project! 
+## The group consists of Siren Hovland, Hildegunn Frønningen, Marianne Hannisdal 
 
+**DATA**
 The DATA folder contains an exam_dataset.txt that was very untidy, we therefore tidyed it up using the "Tidy_Data_Main_script.R" resulting in a new dataset "tidy_exam_dataset.txt". It also contains the codebook describing the data we have used.
 
+**SCRIPTS**
 The SCRIPTS folder contains all the scripts we have used, and is named according to the task they were used for. The scripts are named with numbers to define the chronological order in which they were written;
     "01_Tidy_Data_Main_Script.R" contains the code for tidying the data so that each row is one observation, each column is one variable.
     
@@ -22,6 +25,7 @@ The SCRIPTS folder contains all the scripts we have used, and is named according
         - Did having `AdjRadTherapy` affected time to recurrence?
         - Did those that had recurrence had also larger `TVol` values than those without recurrence?
 
+**RESULTS**
 The RESULTS folder contains:
     - All the relevant plots we made in "03_Creating_plots.R" to answer the exam questions
     - The file "Final_report.rmd", containing plots and results from "04_analyzing_the_data.R"
