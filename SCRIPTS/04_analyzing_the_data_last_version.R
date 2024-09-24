@@ -25,7 +25,7 @@ MyData <- read_delim(here("DATA","tidy_adjust_exam_dataset.txt"))
 
 # Was the time to recurrence different for various `RBC.Age.Group` levels?----
 
-# Calculating max and min values for TimeToRecurrence_days by RBC.Age.Group 
+## Calculating max and min values for TimeToRecurrence_days by RBC.Age.Group 
 MyData %>%
   select(RBC.Age.Group, TimeToRecurrence_days) %>%
   mutate(TimeToRecurrence_days = as.numeric(TimeToRecurrence_days)) %>%
@@ -33,25 +33,27 @@ MyData %>%
   summarise(min(TimeToRecurrence_days, na.rm = T), max(TimeToRecurrence_days, na.rm = T))
 
 
-# Calculating the mean value for TimeToRecurrence_days by RBC.Age.Group 
+## Calculating the mean value for TimeToRecurrence_days by RBC.Age.Group 
 MyData %>% 
   group_by(RBC.Age.Group) %>% 
-  mutate(TimeToRecurrence_days = as.numeric(TimeToRecurrence_days)) %>%
-  summarise(min(TimeToRecurrence_days, na.rm = T), max(TimeToRecurrence_days, na.rm = T), mean(TimeToRecurrence_days, na.rm = T))
+  summarise(mean(TimeToRecurrence_days, na.rm = T))
 
 
 # Normal distribution or not by using histogram?
-hist(MyData$TimeToRecurrence_days)
 
+hist(MyData$TimeToRecurrence_days)
+dev.copy(png,filename="RESULTS/histogram.png"); #Saving the displayed plot
+dev.off ();
+
+# The TimeToRecurrence is not normaly distributed so T test is not relevant. 
 
 # Drawing a boxplot 
 
 boxplot((MyData$TimeToRecurrence_days ~ MyData$RBC.Age.Group), na.rm = T, main="Boxplot - TimeToRecurrence by Age Groups")
 
 
-# Anova
+# Anova. Might work even if the data are not normally distributed 
 
-<<<<<<< HEAD
 ANOVAresult <-
   
   MyData %>% 
@@ -59,24 +61,21 @@ ANOVAresult <-
   mutate(TimeToRecurrence_days = log(TimeToRecurrence_days)) %>%
   
   aov(TimeToRecurrence_days~RBC.Age.Group, data = .)
-=======
-  anova_result <- aov(TimeToRecurrence_days ~ RBC.Age.Group, data = boxplot)
 
-summary(anova_result)
->>>>>>> bc9d9de8fd55b56af81a1bacd6603400802f2807
+ANOVAresult %>%
+  
+  summary()
+
+# The P-value (Pr(>F))= 0.755. Not a statistically significant difference but a numeric difference. 
+
+# using the Kruskal-Wallis Test 
+
+kruskal.test(TimeToRecurrence_days~RBC.Age.Group, data = MyData)
+# a P-value og 0,592 is not significant.
+# there is a numerical value that is not statistically significant. 
 
 
-<<<<<<< HEAD
-
-=======
-  >>>>>>> bc9d9de8fd55b56af81a1bacd6603400802f2807
-
-# RBC.Age.Group 2 inhibits lowest time to recurrence ----
-
-#- Stratify your data by a categorical column and 
-# report min, max, mean and sd of a numeric column.
-
-# I Choose TimeToRecurrence_days grouped by T.stage
+# Was the time to recurrence different for various `T.Stage` levels?
 
 TimeToRec_strat_by_Tstage <- MyData %>% 
   group_by(T.stage) %>% 
@@ -89,10 +88,24 @@ TimeToRec_strat_by_Tstage <- MyData %>%
 
 TimeToRec_strat_by_Tstage
 
+# The mean time to recurrence was clealy different between the two T-stage groups.
+# For patients with T-stage 1 the mean time to recurrence was 246 (Std.dev 204) days. 
+# For patients with T-Stage 2 the mean time to recurrence was only 150 (std.dev 159) days.  
+# The differende can altso be wiaualised by a boxplot 
+boxplot((MyData$TimeToRecurrence_days ~ MyData$T.stage), na.rm = T, main="Boxplot - TimeToRecurrence by Tstage")
 
-#- Stratify your data by a categorical column and 
-#report min, max, mean and sd of a numeric column 
-# for a defined set of observations - use pipe!
+dev.copy(png, filename = "RESULTS/Boxplot_TimeToRecurrence_by_Tstage.png")
+# Saving the displayed plot
+dev.off()
+
+
+# histogram only shows that the time to recurrence is not noramlly distributed, 
+# it does not tell if the two different groups are normally distibuted. 
+hist(MyData$TimeToRecurrence_days) 
+
+# using the Kruskal-Wallis Test 
+kruskal.test(TimeToRecurrence_days~T.stage, data = MyData)
+# a P-value of 0,0048 is clearly statisticlly significant. 
 
 # -Only for persons with `T.Stage == 1`
 
@@ -106,7 +119,7 @@ TimeToRec_strat_by_Tstage_1 <- MyData %>%
     std_dev_TimeToRec = sd(TimeToRecurrence_days, na.rm = T)
   )
 
-TimeToRec_strat_by_Tstage_1
+# TimeToRec_strat_by_Tstage_1
 
 
 #- Only for persons with `Median.RBC.Age == 25`
@@ -152,20 +165,8 @@ TimeToRec_for_Hosp1_Tvol_2  <- MyData %>%
   )
 TimeToRec_for_Hosp1_Tvol_2
 
-#- Use two categorical columns in your dataset to create a table (hint: ?count)
-# We choose the columns "Recurrence" (0 1) and "T.Stage (1 2) 
 
-MyData %>%
-  count (Recurrence, T.stage)
-
-
-#  4. Day 8: Analyse the dataset and answer the following questions:
-#    _(each person chooses one question)_
-# 82  - Was the time to recurrence different for various `T.Stage` levels?
-
-t.test(MyData$TimeToRecurrence_days~MyData$T.stage) %>%  
-  broom::tidy()
-# P-value of 0.00233. there is a cleraly significant differece 
+# Illustarted by ggplots
 
 MyData %>% 
   ggplot(aes(x = T.stage, y = TimeToRecurrence_days)) +
@@ -178,12 +179,9 @@ print(correlation) # Calculated value -0.1517019.
 
 #Time to recurrence is 15 % longer in those with T stage 1 than T stage 2.  
 
-# illustrated by boxplot 
 
-# Boxplot
-boxplot(MyData$TimeToRecurrence_days~MyData$T.stage)
+## Did having `AdjRadTherapy` affected time to recurrence? ----
 
-# Did having `AdjRadTherapy` affected time to recurrence? ----
 # Exploring: See unique values in the AdjRadTherapy column
 unique_values <- unique(MyData$AdjRadTherapy)
 print(unique_values) # only 0 and 1
@@ -259,9 +257,18 @@ print(t_test_result_any) #p-value = 0.7421 No significant difference in mean due
 
 # - Did those that had recurrence had also larger `TVol` values than those without recurrence? ----
 
-t.test(MyData$TVol~MyData$Recurrence) %>%  
-  broom::tidy()
-# P-value of 0.0000000641 which is cleraly significant  
+# Count the frequency of each value
+frequency_table <- table(MyData$TVol)
+print(frequency_table) # Tvol 1 counted 64, Tvol 2 counted 153, Tvol 1 counted 93
 
+
+MyData %>%
+  count (Recurrence, T.stage)
+
+# Create a table of counts for 'Tvol' and 'Recurrence'
+table_result <- table(MyData$TVol, MyData$Recurrence)
+
+# View the result
+print(table_result)
 
 
