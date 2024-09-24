@@ -52,12 +52,6 @@ boxplot((MyData$TimeToRecurrence_days ~ MyData$RBC.Age.Group), na.rm = T, main="
 
 # Anova
 
-MyData %>% 
-  
-  mutate(TimeToRecurrence_days = log(TimeToRecurrence_days)) %>%
-  
-  aov(TimeToRecurrence_days~RBC.Age.Group, data = .)
-
 ANOVAresult <-
   
   MyData %>% 
@@ -70,24 +64,7 @@ ANOVAresult %>%
   
   summary()
 
-# Anova - test 2
-MyData %>% 
-  
-  mutate(RBC.Age.Group = log(RBC.Age.Group)) %>%
-  
-  aov(RBC.Age.Group~TimeToRecurrence_days, data = .)
 
-ANOVAresult <-
-  
-  MyData %>% 
-  
-  mutate(RBC.Age.Group = log(RBC.Age.Group)) %>%
-  
-  aov(RBC.Age.Group~TimeToRecurrence_days, data = .)
-
-ANOVAresult %>%
-  
-  summary()
 
 # RBC.Age.Group 2 inhibits lowest time to recurrence ----
 
