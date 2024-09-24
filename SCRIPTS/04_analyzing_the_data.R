@@ -36,9 +36,8 @@ MyData %>%
 # Calculating the mean value for TimeToRecurrence_days by RBC.Age.Group 
 MyData %>% 
   group_by(RBC.Age.Group) %>% 
-  summarise(mean(TimeToRecurrence_days, na.rm = T))
-
-summarise(min(TimeToRecurrence_days, na.rm = T), max(TimeToRecurrence_days, na.rm = T))
+  mutate(TimeToRecurrence_days = as.numeric(TimeToRecurrence_days)) %>%
+  summarise(min(TimeToRecurrence_days, na.rm = T), max(TimeToRecurrence_days, na.rm = T), mean(TimeToRecurrence_days, na.rm = T))
 
 
 # Normal distribution or not by using histogram?
@@ -52,42 +51,11 @@ boxplot((MyData$TimeToRecurrence_days ~ MyData$RBC.Age.Group), na.rm = T, main="
 
 # Anova
 
-MyData %>% 
-  
-  mutate(TimeToRecurrence_days = log(TimeToRecurrence_days)) %>%
-  
-  aov(TimeToRecurrence_days~RBC.Age.Group, data = .)
+anova_result <- aov(TimeToRecurrence_days ~ RBC.Age.Group, data = boxplot)
 
-ANOVAresult <-
-  
-  MyData %>% 
-  
-  mutate(TimeToRecurrence_days = log(TimeToRecurrence_days)) %>%
-  
-  aov(TimeToRecurrence_days~RBC.Age.Group, data = .)
+summary(anova_result)
 
-ANOVAresult %>%
-  
-  summary()
 
-# Anova - test 2
-MyData %>% 
-  
-  mutate(RBC.Age.Group = log(RBC.Age.Group)) %>%
-  
-  aov(RBC.Age.Group~TimeToRecurrence_days, data = .)
-
-ANOVAresult <-
-  
-  MyData %>% 
-  
-  mutate(RBC.Age.Group = log(RBC.Age.Group)) %>%
-  
-  aov(RBC.Age.Group~TimeToRecurrence_days, data = .)
-
-ANOVAresult %>%
-  
-  summary()
 
 # RBC.Age.Group 2 inhibits lowest time to recurrence ----
 
