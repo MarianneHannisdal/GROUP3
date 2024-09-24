@@ -191,6 +191,14 @@ knitr::include_graphics("count_T2.png")
 
 **Was the time to recurrence different for various `RBC.Age.Group` levels?**
 <br>
+
+```{r}
+knitr::include_graphics("histogram.png")
+
+```
+<br>
+
+<br>
 Write here..
 <br>
 <br>
