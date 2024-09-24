@@ -56,8 +56,8 @@ MyDataNA <- MyData %>%
   select(where(~ any(is.na(.))))
 glimpse(MyDataNA) # Displaying columns with NA
 
-# Stratifying ----
-## - our data by a categorical column and report min, max, mean and sd of a numeric column ----
+# Stratifying: ----
+## - ...our data by a categorical column and report min, max, mean and sd of a numeric column ----
 # We Choose TimeToRecurrence_days grouped by T.stage
 TimeToRec_strat_by_Tstage <- MyData %>%
   group_by(T.stage) %>%
@@ -71,7 +71,7 @@ TimeToRec_strat_by_Tstage <- MyData %>%
 TimeToRec_strat_by_Tstage # Displaying a tibble
 
 
-## - for a defined set of observations ----
+## - ...for a defined set of observations ----
 # -Only for persons with `T.Stage == 1`
 TimeToRec_strat_by_Tstage_1 <- MyData %>%
   filter(T.stage == 1) %>%
@@ -85,7 +85,7 @@ TimeToRec_strat_by_Tstage_1 <- MyData %>%
 TimeToRec_strat_by_Tstage_1
 
 
-## - for persons with `Median.RBC.Age == 25` ----
+## - ...for persons with `Median.RBC.Age == 25` ----
 TimeToRec_strat_by_Median.RBC.Age <- MyData %>%
   filter(Median.RBC.Age == 25) %>%
   group_by(T.stage) %>%
@@ -98,7 +98,7 @@ TimeToRec_strat_by_Median.RBC.Age <- MyData %>%
 TimeToRec_strat_by_Median.RBC.Age
 
 
-## - for persons with `TimeToReccurence` later than 4 weeks (28 days) ----
+## - ...for persons with `TimeToReccurence` later than 4 weeks (28 days) ----
 TimeToRec_strat_by_later_than_4_Weeks <- MyData %>%
   filter(TimeToRecurrence_days >= 28) %>%
   group_by(T.stage) %>%
@@ -110,7 +110,7 @@ TimeToRec_strat_by_later_than_4_Weeks <- MyData %>%
   )
 TimeToRec_strat_by_later_than_4_Weeks
 
-## - for persons recruited in `Hosp1` and `Tvol == 2` ----
+## - ...for persons recruited in `Hosp1` and `Tvol == 2` ----
 TimeToRec_for_Hosp1_Tvol_2 <- MyData %>%
   filter(Hospital == "Hosp1") %>%
   group_by(T.stage) %>%
