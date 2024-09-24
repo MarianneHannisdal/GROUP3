@@ -24,7 +24,7 @@ pre {
 </style>
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 ```
 
 <br>
@@ -98,7 +98,7 @@ Now, the new file contains 316 number of observations and 21 number of variables
 The tidied and manipulated dataset was saved in a new file "tidy_adjust_exam_dataset.txt" and the codebook was updated.<br>
 <br>
 
-## **Exploratoy data analysis (EDA) of the data**
+## **Exploratory data analysis (EDA) of the data**
 
 To explore the data, we did the following:<br>
 
@@ -192,6 +192,12 @@ knitr::include_graphics("count_T2.png")
 **Was the time to recurrence different for various `RBC.Age.Group` levels?**
 <br>
 
+There was a nummeric difference in time to recurrence in the 3 different RBC.Age.Group` levels.
+The mean time to recurrence in group 1,2 and 3 was 238, 215 and 238. 
+As the histogram illustrates the data was not normally distributed.
+Using Anova an Kruskal-Wallis test,
+both indicates that the difference is not statistically significant with p values of 0,775 and 0,592.
+
 ```{r}
 knitr::include_graphics("histogram.png")
 
@@ -205,19 +211,39 @@ Write here..
 
 **Was the time to recurrence different for various `T.Stage` levels?**
 <br>
-Write here..
+The time to recurrence was clealy different between the two T-stage groups.
+For patients with T-stage 1 the mean time to recurrence was 246 (Std.dev 204) days. 
+For patients with T-Stage 2 the mean time to recurrence was only 150 (std.dev 159) days.  
+Time to recurrence is 15 % longer in those with T stage 1 than T stage 2.  
+The differende can altso be viaualised by a boxplot.
+
+
+```{r}
+knitr::include_graphics("Boxplot_TimeToRecurrence_by_Tstage.png")
+
+```
+
+
+Analyzing the two groups with a Kruskal-Wallis test, 
+the difference is higly statistically  significant with a p value of 0,0048
 <br>
 <br>
 
 **Did having `AdjRadTherapy` affect time to recurrence?**
 <br>
-Write here..
+Only 1 out og 316 patient had 'AdjRadTherapy'. 
+The mean time to recurrence for patients not having 'AdjRadTherapy' was 231 days 
+while the time to recurrence for the patient having  'AdjRadTherapy' was 59 days
+
 <br>
 <br>
 
 **Did those that had recurrence had also larger `TVol` values than those without recurrence?**
 <br>
-Write here..
+Patients having recurrence had larger 'Tvol'.
+2 out of 64 (3 %) patients with Tvol = 1 had Recurrence.
+19 out of 153 (7%) patienst with Tvol = 2 had Recurence.
+30 out of 93 (20%) patienst with Tvol = 3 had Recurrence.
 <br>
 <br>
 
