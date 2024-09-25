@@ -3,7 +3,7 @@
 
 
 **DATA** <br>
-The DATA folder contains an exam_dataset.txt that was very untidy, we therefore tidyed it up using the "Tidy_Data_Main_script.R" resulting in a new dataset "tidy_exam_dataset.txt". It also contains the codebook describing the data we have used.
+The DATA folder contains an exam_dataset.txt that was very untidy, we therefore tidyed it up using the "Tidy_Data_Main_script.R" resulting in a new dataset "tidy_exam_dataset.txt". We wrangled the "tidy_exam_dataset.txt" and saved the wrangled data as "tidy_adjust_exam_dataset.txt" which was used for the further analysis. The DATA folder also contains the updated codebook, named "GROUP3_codebook_exam_data".
 
 **SCRIPTS** <br>
 The SCRIPTS folder contains all the scripts we have used, and is named according to the task they were used for. The scripts are named with numbers to define the chronological order in which they were written;
@@ -29,6 +29,6 @@ The SCRIPTS folder contains all the scripts we have used, and is named according
 
 **RESULTS** <br>
 The RESULTS folder contains:
-    - All the relevant plots we made in "03_Creating_plots.R" to answer the exam questions
-    - The file "Final_report.rmd", containing plots and results from "04_analyzing_the_data.R"
+    - All the relevant plots we made to answer the exam questions
+    - The file "Final_report.rmd" and "Final_report.html", containing plots and results.
 
