@@ -192,11 +192,10 @@ knitr::include_graphics("count_T2.png")
 **Was the time to recurrence different for various `RBC.Age.Group` levels?**
 <br>
 
-There was a nummeric difference in time to recurrence in the 3 different RBC.Age.Group` levels.
-The mean time to recurrence in group 1,2 and 3 was 238, 215 and 238. 
-As the histogram illustrates the data was not normally distributed.
-Using Anova an Kruskal-Wallis test,
-both indicates that the difference is not statistically significant with p values of 0,775 and 0,592.
+
+The mean time to recurrence in group 1,2 and 3 was 238, 215 and 238, respectively. There were no numeric difference in time to recurrence in the RBC.Age.Group` 1 and 3. However, Group 2 showed some difference and we applied statistical tests to investigate if the difference was statistically significant.
+We visually inspected the data by histogram and found that it was not normally distributed.
+Using Anova and Kruskal-Wallis test, both indicated that the difference is not statistically significant with p values of 0,775 and 0,592, respectively.
 
 ```{r}
 knitr::include_graphics("Boxplot_TimeToRecurrence_by_RBC_Age_group.png")
@@ -205,17 +204,15 @@ knitr::include_graphics("Boxplot_TimeToRecurrence_by_RBC_Age_group.png")
 <br>
 
 <br>
-Write here..
-<br>
 <br>
 
 **Was the time to recurrence different for various `T.Stage` levels?**
 <br>
-The time to recurrence was clealy different between the two T-stage groups.
+The time to recurrence was clearly different between the two T-stage groups.
 For patients with T-stage 1 the mean time to recurrence was 246 (Std.dev 204) days. 
 For patients with T-Stage 2 the mean time to recurrence was only 150 (std.dev 159) days.  
 Time to recurrence is 15 % longer in those with T stage 1 than T stage 2.  
-The differende can altso be viaualised by a boxplot.
+The difference can also be visualized by a box-plot.
 
 
 ```{r}
@@ -225,7 +222,7 @@ knitr::include_graphics("Boxplot_TimeToRecurrence_by_Tstage.png")
 
 
 Analyzing the two groups with a Kruskal-Wallis test, 
-the difference is higly statistically  significant with a p value of 0,0048
+the difference is highly statistically  significant with a p-value of 0,0048.
 <br>
 <br>
 
@@ -233,24 +230,24 @@ the difference is higly statistically  significant with a p value of 0,0048
 <br>
 Only 1 out og 316 patient had 'AdjRadTherapy'. 
 The mean time to recurrence for patients not having 'AdjRadTherapy' was 231 days 
-while the time to recurrence for the patient having  'AdjRadTherapy' was 59 days
+while the time to recurrence for the patient having  'AdjRadTherapy' was 59 days. There is not enough power to draw any conclusions here.
 
 <br>
 <br>
 
 **Did those that had recurrence had also larger `TVol` values than those without recurrence?**
 <br>
-Patients having recurrence had larger 'Tvol'.
-2 out of 64 (3 %) patients with Tvol = 1 had Recurrence.
-19 out of 153 (7%) patienst with Tvol = 2 had Recurence.
-30 out of 93 (20%) patienst with Tvol = 3 had Recurrence.
+Patients having 'Tvol' = 3 had the highest insidense of recurrence; <br>
+  - 2 out of 64 (3 %) patients with Tvol = 1 had Recurrence.<br>
+  -19 out of 153 (7%) patienst with Tvol = 2 had Recurence. <br>
+  -30 out of 93 (20%) patienst with Tvol = 3 had Recurrence. <br>
 <br>
 <br>
 
 ## **Conclusion**
 
 <br>
-Write here...
+Through this work we achieved the main objective; to put knowledge from the course (RMED901) into practice. We have solved the given set of different tasks individually and in collaboration. We have coded using RStudio, tidyied and wrangled the data, created plots, analyzed the results, and summarized in this final report. Documentation can be found on GitHub repository "GROUP3", which we used for collaboration and version control.
 <br>
 <br>
 
