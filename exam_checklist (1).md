@@ -26,11 +26,11 @@ where needed)_
 - [x] Style the script(s) using [{styler}](https://styler.r-lib.org/)
 - [x] Update README
 
-- [ ] Analyze data
-- [ ] Style the script(s) using [{styler}](https://styler.r-lib.org/)
-- [ ] Update README if more files were created
+- [x] Analyze data
+- [x] Style the script(s) using [{styler}](https://styler.r-lib.org/)
+- [x] Update README if more files were created
 
-- [ ] Create Rmd report
-- [ ] Check .html output and adjust Rmd to look nice; repeat if needed
+- [x] Create Rmd report
+- [x] Check .html output and adjust Rmd to look nice; repeat if needed
 
-- [ ] Check repository if all needed files are present, clean up
+- [x] Check repository if all needed files are present, clean up
