@@ -199,7 +199,7 @@ Using Anova an Kruskal-Wallis test,
 both indicates that the difference is not statistically significant with p values of 0,775 and 0,592.
 
 ```{r}
-knitr::include_graphics("histogram.png")
+knitr::include_graphics("Boxplot_TimeToRecurrence_by_RBC_Age_group.png")
 
 ```
 <br>
