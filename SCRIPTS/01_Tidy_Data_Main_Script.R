@@ -39,7 +39,7 @@ naniar::gg_miss_var(MyData)
 
 
 ## Identifying columns consisting of more than one value ----
-### - ..Separate the first column ----
+### --> Separate the first column ----
 MyData <- MyData %>%
   separate(
     col = subject,
@@ -60,7 +60,7 @@ print(num_duplicates)
 # Reading about the unique function
 ?unique
 
-### - ..Remove duplicate rows ----
+### --> Remove duplicate rows ----
 MyData_unique <- unique(MyData)
 
 # Printing the number of rows before and after removing duplicates
@@ -79,7 +79,7 @@ MyData <- unique(MyData)
 # Checking if the '.value' is numeric
 class(MyData$.value)
 
-### - ..Reshape 'PVol' and 'TVol' ----
+### --> Reshape 'PVol' and 'TVol' ----
 MyData_wide <- MyData %>%
   pivot_wider(
     names_from = volume.measurement, # Specifies where to get the names of the new columns
@@ -126,14 +126,14 @@ head(MyData)
 MyData %>%
   select(TimeToRecurrence, TimeToRecurrence_unit)
 
-### - ..Add a new column where 'TimeToRecurrence' is defined in days ----
+### --> Add a new column where 'TimeToRecurrence' is defined in days ----
 MyData <- MyData %>%
   mutate(TimeToRecurrence_days = if_else(TimeToRecurrence_unit == "week", TimeToRecurrence * 7, TimeToRecurrence))
 
 MyData %>%
   select(TimeToRecurrence, TimeToRecurrence_unit, TimeToRecurrence_days)
 
-### - ..Remove 'TimeToRecurrence_unit' and 'TimeToRecurrence' ----
+### --> Remove 'TimeToRecurrence_unit' and 'TimeToRecurrence' ----
 MyData <- MyData %>%
   select(-TimeToRecurrence_unit, -TimeToRecurrence)
 
