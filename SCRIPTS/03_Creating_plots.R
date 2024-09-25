@@ -1,5 +1,5 @@
 #----GROUP 3-------------------------####
-# Date:  2024-09-11
+# Date:  2024-09-25
 # Author:  The members of GROUP 3: Siren Hovland, Hildegunn Frønningen, Marianne Hannisdal
 # Filename: Creating_Plots.R
 # Description:  Creating Plots
