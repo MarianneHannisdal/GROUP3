@@ -17,7 +17,7 @@
 # Importing relevant packages
 library(tidyverse)
 library(here)
-library(readxl)
+
 
 # Reading the file
 MyData <- read_delim(here("DATA","tidy_adjust_exam_dataset.txt"))
