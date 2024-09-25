@@ -27,7 +27,7 @@ glimpse(MyData)
 
 
 ## - Are there any correlated measurements? ----
-### ...Correlation Matrix - an overview ----
+### --> Correlation Matrix - an overview ----
 
 MyDataTest <- MyData %>%
   select(-Age, -Median.RBC.Age, -Hospital, -VolumeHighOrLow, -recurrence, -subject, -RBC.Age.Group)
@@ -49,7 +49,7 @@ dev.off()
 
 ## - Is there a relation between the `PVol` and `TVol` variables? ----
 
-### - ...Correlation Plot - 'TVol' and 'PVol' ----
+### - --> Correlation Plot - 'TVol' and 'PVol' ----
 
 MyData %>%
   ggplot(aes(x = TVol, y = PVol)) +
@@ -73,7 +73,7 @@ t.test(MyData$PreopPSA ~ MyData$T.stage) %>%
   broom::tidy() # Table showing there is a statistically significant. P-value 0,01
 
 
-### - ...Box plot - 'PreopPSA' and 'T.stage' ----
+### - --> Box plot - 'PreopPSA' and 'T.stage' ----
 boxplot(MyData$PreopPSA ~ MyData$T.stage)
 dev.copy(png, filename = "RESULTS/PreopPSA_depend_on_Tstage.png")
 # Saving the displayed plot
@@ -82,7 +82,7 @@ dev.off()
 
 
 ## Does the distribution of `PVol` depend on `sGS`? ----
-### - ...Box plot - 'PVol' & 'sGS' ----
+### --> Box plot - 'PVol' & 'sGS' ----
 
 boxplot(MyData$PVol ~ MyData$sGS)
 boxplot(MyData$PVol ~ MyData$sGS, na.rm = T) # the to plots look exactly the same
@@ -101,7 +101,7 @@ anova_result <- aov(PVol ~ factor(sGS), data = clean_data)
 summary(anova_result)
 
 
-### - ...Correlation Plot 'PreopPSA' & 'sGS' ----
+### --> Correlation Plot 'PreopPSA' & 'sGS' ----
 
 MyData %>%
   ggplot(aes(x = sGS, y = PreopPSA)) +
@@ -116,7 +116,7 @@ print(correlation) # Correlation calculated to - 0,071. PreopPSA decreases 7 % w
 
 
 ## Does the distribution of 'TVol' depend on 'sGS' ----
-### - ...Grouped Barplot - 'sGS' and 'TVol' ----
+### --> Grouped Barplot - 'sGS' and 'TVol' ----
 
 MyDataBarplot <- MyData %>%
   select(TVol, sGS) %>%
@@ -173,7 +173,7 @@ summary_plot_data <- summary_data %>%
 print(summary_plot_data)
 
 # Plotting the counts of 'T.Stage' == 2 by 'PreopTherapy' group
-### - ...Barplot 'T.Stage' == 2 & 'PreopTherapy' ----
+### --> Barplot 'T.Stage' == 2 & 'PreopTherapy' ----
 
 ggplot(summary_plot_data, aes(x = PreopTherapy, y = Count, fill = PreopTherapy)) +
   geom_col() +
